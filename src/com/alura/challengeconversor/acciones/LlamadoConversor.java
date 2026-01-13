@@ -11,8 +11,9 @@ import java.net.http.HttpResponse;
 
 public class LlamadoConversor implements Conversion {
 
+    private final String apiKey = System.getenv("EXCHANGE_RATE_KEY");
 
-    public double tasaConversion(ConfiguracionMoneda datosDeEntrada) {
+    public double tasaConversion(ConfiguracionMoneda datosDeEntrada, HttpClient cliente) {
 
         String monedaObjetivo = datosDeEntrada.objetivo().name();
         String monedaBase = datosDeEntrada.base().name();
@@ -24,15 +25,12 @@ public class LlamadoConversor implements Conversion {
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting().create();
-    /*
-    Creación del ciente para la consulta.
-     */
-        HttpClient cliente = HttpClient.newHttpClient();
+
     /*
     Generación de la URI dinámica, se ha excluido el argumento montoACovertir debido a que se optó por hacer la lógica
     de conversión de manera interna en el programa.
      */
-        String url = "https://v6.exchangerate-api.com/v6/62705828c13143d3d4201914/pair/"
+        String url = "https://v6.exchangerate-api.com/v6/"+ apiKey + "/pair/"
                 + monedaBase + "/" + monedaObjetivo + "/" /*+ montoAConvertir + "/"*/;
     /*
     Creacón de la solicitud a la API

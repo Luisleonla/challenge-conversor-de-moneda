@@ -2,6 +2,7 @@ import com.alura.challengeconversor.acciones.LlamadoConversor;
 import com.alura.challengeconversor.acciones.OpcionesYEntradaDatos;
 import com.alura.challengeconversor.modelos.ConfiguracionMoneda;
 
+import java.net.http.HttpClient;
 import java.util.Scanner;
 
 public class Principal {
@@ -15,6 +16,14 @@ public class Principal {
         Ciclo While que permite lanzar el menú indeterminadamente mientras que el usuario no lanze una solicitud
         expresa para finalizar el programa, tecleando la opción 0.
          */
+        Scanner scanner = new Scanner(System.in);
+        /*
+    Creación del ciente para la consulta.
+     */
+        HttpClient cliente = HttpClient.newHttpClient();
+        LlamadoConversor llamado = new LlamadoConversor();
+
+
         while (true) {
             /*
             Instanciamos el método mostrarMenu() de nuestro objeto gestor generado a partir de la clase del tipo
@@ -22,7 +31,6 @@ public class Principal {
             entrada de datos del cliente.
              */
             gestor.mostrarMenu();
-            Scanner scanner = new Scanner(System.in);
             int opcion = scanner.nextInt();
             /*
             En principio se una un condicional para evaluar si el usuario a decidido cerrar el programa con lo que se
@@ -49,8 +57,7 @@ public class Principal {
                 System.out.println("Digita el monto que deseas convertir");
                 double monto = scanner.nextDouble();
 
-                LlamadoConversor llamado = new LlamadoConversor();
-                double tasa = llamado.tasaConversion(datosDeEntrada);
+                double tasa = llamado.tasaConversion(datosDeEntrada, cliente);
                 double conversion = llamado.getConversion(monto, tasa);
 
                 System.out.printf("""

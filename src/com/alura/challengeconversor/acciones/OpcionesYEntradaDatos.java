@@ -32,6 +32,7 @@ public class OpcionesYEntradaDatos {
 
     public void mostrarMenu() {
         System.out.println("""
+                
                 ****************************************************
                 Gracias por usar el servicio de conversión de moneda León.
                 Indicanos la opción que deseas:
