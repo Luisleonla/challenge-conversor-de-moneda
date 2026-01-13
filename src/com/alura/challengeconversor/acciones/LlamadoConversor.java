@@ -1,6 +1,6 @@
 package com.alura.challengeconversor.acciones;
 
-import com.alura.challengeconversor.modelos.SolicitudConversion;
+import com.alura.challengeconversor.modelos.ConfiguracionMoneda;
 import com.google.gson.*;
 
 import java.io.IOException;
@@ -9,9 +9,14 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class LlamadoConversor {
+public class LlamadoConversor implements Conversion {
 
-    public double tasaConversion(String monedaBase, String monedaObjetivo) {
+
+    public double tasaConversion(ConfiguracionMoneda datosDeEntrada) {
+
+        String monedaObjetivo = datosDeEntrada.objetivo().name();
+        String monedaBase = datosDeEntrada.base().name();
+
         /*
         Investigar mas sobre esta línea. Misma que sirve para llamar la librería Gson para procesar la información en
         formato Json
@@ -24,7 +29,8 @@ public class LlamadoConversor {
      */
         HttpClient cliente = HttpClient.newHttpClient();
     /*
-    Generación de la URI dinámica.
+    Generación de la URI dinámica, se ha excluido el argumento montoACovertir debido a que se optó por hacer la lógica
+    de conversión de manera interna en el programa.
      */
         String url = "https://v6.exchangerate-api.com/v6/62705828c13143d3d4201914/pair/"
                 + monedaBase + "/" + monedaObjetivo + "/" /*+ montoAConvertir + "/"*/;
@@ -45,22 +51,17 @@ public class LlamadoConversor {
             Conversión de respuesta a formato Json
              */
             String json = response.body();
-            //System.out.println(json);
-            /*
-            Traslado de la infomación en formato Json al objeto del tipo record con nombre SolicitudConversion
-             */
-            SolicitudConversion solicitudConversion = gson.fromJson(json, SolicitudConversion.class);
-            //System.out.println(solicitudConversion);
-            JsonElement elemento = JsonParser.parseString(response.body());
-            //System.out.println(elemento);
-            JsonObject objectRoot = elemento.getAsJsonObject();
-            //System.out.println(objectRoot);
-            double tasa = objectRoot.get("conversion_rate").getAsDouble();
-            //System.out.println(tasa);
-            return tasa;
+            JsonElement elemento = JsonParser.parseString(json);
+            JsonObject objectRoot = elemento.getAsJsonObject();//Muestra toda la información en formato Json
+            return objectRoot.get("conversion_rate").getAsDouble();//Retorna el valor de la tasa de conversión
+
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
+    @Override
+    public double getConversion(double monto, double tasa) {
+        return monto * tasa;
+    }
 }

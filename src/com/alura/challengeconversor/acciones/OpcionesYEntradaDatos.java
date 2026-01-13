@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OpcionesYEntradaDatos {
-    private List<ConfiguracionMoneda> listaDeOpciones;
+    //Creación y adición de base de datos de opciones de conversión en una lista para busqueda condicional.
+    private final List<ConfiguracionMoneda> listaDeOpciones;
+
     public OpcionesYEntradaDatos() {
         this.listaDeOpciones = new ArrayList<>();
         listaDeOpciones.add(new ConfiguracionMoneda(1, Monedas.USD, Monedas.MXN));
@@ -23,25 +25,36 @@ public class OpcionesYEntradaDatos {
         listaDeOpciones.add(new ConfiguracionMoneda(11, Monedas.USD, Monedas.CLP));
         listaDeOpciones.add(new ConfiguracionMoneda(12, Monedas.CLP, Monedas.USD));
     }
+    /*
+    Muestra menú de opciones de conversión, realiza un barrida por todos los elementos de nuestra lista y extrae el
+    valor coincidente de nuestro Enum declarado con códigos y descripciones.
+     */
 
-    //String monedaBase;
-    //String monedaObjetivo;
-    public void mostrarMenu(){
+    public void mostrarMenu() {
         System.out.println("""
                 ****************************************************
                 Gracias por usar el servicio de conversión de moneda León.
                 Indicanos la opción que deseas:
                 """);
-        for(ConfiguracionMoneda conf : listaDeOpciones){
+        System.out.println(0 + ") Salir");
+        for (ConfiguracionMoneda conf : listaDeOpciones) {
             System.out.println(conf.obtenerLineaMenu());
         }
+        System.out.println("""
+                ****************************************************
+                Elija una opción valida""");
     }
-//    public SolicitudConversion recabarDatos() {
-//
-//        Scanner scanner = new Scanner(System.in);
-//        int opcion = scanner.nextInt();
-//
-//        double monto = scanner.nextDouble();
-//        return new SolicitudConversion(monedaBase, monedaObjetivo, monto);
-//    }
+    /*
+    Método que retorna el conjunto de datos de la conversión elegida a partir de una busqueda de elementos en nuestra
+    lista, usando el método Stream.
+     */
+
+    public ConfiguracionMoneda buscarPorId(int idUsuario) {
+        return listaDeOpciones.stream()
+                .filter(c -> c.id() == idUsuario)
+                .findFirst()
+                .orElse(null);
+    }
+
 }
+
