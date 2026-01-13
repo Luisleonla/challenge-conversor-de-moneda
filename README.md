@@ -10,7 +10,7 @@ plataformas de terceros._
 ## 📋 Caracteristicas principales
 * Obtención de datos actualizados: Por medio de una API, se
  hacen las solicitudes de datos para contar con los valores
- de las tasas de tipo de cambio de forma actualizada.> 
+ de las tasas de tipo de cambio de forma actualizada.
 * Aplicación de los conceptos de programación orientada a 
 objetos para consolidar conocimientos de clases, objetos, 
 listas, interfaces, encapsulamiento, métodos, entre otros 
@@ -25,7 +25,7 @@ conceptos.
 Para replicar el presente programa y que corra correctamente
 en tu computadora sigue lo siguientes pasos:
 1. Clonar el repocitorio en tu ordenador.
-2. Crea tu propia apiKey entrando a https://www.exchangerate-api.com
+2. Crea tu propia apiKey entrando a [ExchangeRate-API](https://www.exchangerate-api.com)
 3. Una vez que cuentes con tu apiKey configurala en tus variables de entorno:
    1. Busca "Editar las variables de entorno del sistema" -> Variables de entorno -> Nueva
       * Nombre: `EXCHANGE_RATE_KEY`
